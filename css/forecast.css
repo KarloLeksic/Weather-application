@@ -1,0 +1,94 @@
+.forecast {
+  background-color: #f6f6f8;
+  padding: 50px;
+  width: 100%;
+  height: 856px; /* maknuti ovo  */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #c5c5c5;
+  font-size: 18px;
+}
+
+nav ul li a.menu-active {
+  color: #020202;
+  position: relative;
+  font-weight: bold;
+}
+
+nav ul li a.menu-active::after {
+  content: '';
+  height: 1px;
+  width: 100%;
+  background-color: #020202;
+  position: absolute;
+  bottom: -5px;
+  left: 0;  
+}
+
+.temp-units li a {
+  background-color: #fff;
+  color: #020202;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.temp-units li a.active-unit {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.next-7-days-forecast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40px 0;
+}
+
+.next-7-days-forecast .day {
+  background-color: #fff;
+  padding: 15px 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.day .day-in-week {
+  font-size: 14px;
+}
+
+.day img {
+  width: 50px;
+  margin: 10px 0;
+}
+
+.day .temp-container p {
+  font-size: 14px;
+  display: inline;
+}
+
+.day .temp-container .min-temp {
+  color: #b1b1b1;
+}

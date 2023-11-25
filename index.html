@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/general.css">
+  <link rel="stylesheet" href="css/current-conditions.css">
+  <link rel="stylesheet" href="css/forecast.css">
+  <link rel="stylesheet" href="css/highlights.css">
+  <title>Karlito Weather</title>
+</head>
+<body>
+
+  <div class="weather-container">
+    <div class="current-conditions-container">
+
+      <div class="search-container">
+        <label for="search-places"><i class="fas fa-search"></i></label>
+        <input type="text" id="search-places" placeholder="Search for places ...">
+      </div>
+
+      <div class="current-conditions">
+        <img class="current-weather-icon" id="current-weather-icon" src="images/02d.svg" alt="current-weather-icon">
+        <p class="current-temp" id="current-temp">12<sup>&deg;C</sup></p>
+        <p class="day" id="day">Monday, <span>16:00</span></p>
+        <hr>
+
+        <div class="cloudiness">
+          <img src="images/cloud-icon.svg" alt="cloud-icon">
+          <p>Mostly Cloudy</p>
+        </div>
+
+        <div class="rain-probability">
+          <img src="images/rain-icon.svg" alt="cloud-icon">
+          <p>Rain - <span>30%</span></p>
+        </div>
+
+        <div class="city-img-container">
+          <!-- Image from https://static.jutarnji.hr/images/slike/2020/10/08/8912529.jpg?1602690542 -->
+          <img src="images/osijek.jpg" alt="city-image">
+          <p>Osijek, Croatia</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast">
+      <nav>
+        <ul>
+          <li><a href="#">Today</a></li>
+          <li><a href="#" class="menu-active">Week</a></li>
+        </ul>
+        <ul class="temp-units">
+          <li><a href="#" class="active-unit" data-units="metric">&deg;C</a></li>
+          <li><a href="#" data-units="imperial">&deg;F</a></li>
+        </ul>
+      </nav>
+
+      <div class="next-7-days-forecast" id="next-7-days-forecast">
+        <div class="day">
+          <p class="day-in-week">Sat</p>
+          <img src="images/01d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+
+        <div class="day">
+          <p>Sun</p>
+          <img src="images/02d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+
+        <div class="day">
+          <p>Mon</p>
+          <img src="images/03d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+
+        <div class="day">
+          <p>Tue</p>
+          <img src="images/10d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+
+        <div class="day">
+          <p>Wed</p>
+          <img src="images/09d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+
+        <div class="day">
+          <p>Thu</p>
+          <img src="images/50d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+
+        <div class="day">
+          <p>Fri</p>
+          <img src="images/11d.svg" alt="forecast-icon">
+          <div class="temp-container">
+            <p class="max-temp">15&deg;</p>
+            <p class="min-temp">-3&deg;</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Today's Highlights</h3>
+      <div class="todays-higlights-container">
+        <div class="highlight feels-like" id="feels-like">
+          <p class="highlight-title">Feels like</p>
+          <p class="value">-5<sup>&deg;C</sup></p>
+        </div>
+
+        <div class="highlight wind" id="wind">
+          <p class="highlight-title">Wind Status</p>
+          <div class="value-unit">
+            <p class="value">7.70</p>
+            <p class="unit">m/s</p>
+          </div>
+          <div class="wind-direction">
+            <img src="images/wind-icon.svg" alt="wind-icon">
+            <p>WSW</p>
+          </div>
+        </div>
+
+        <div class="highlight sunrise-sunset" id="sunrise-sunset">
+          <p class="highlight-title">Sunrise & Sunset</p>
+          <div class="sunrise">
+            <img src="images/sunrise-icon.svg" alt="sunrise-icon">
+            <p class="time">6:35 AM</p>
+          </div>
+          <div class="sunset">
+            <img src="images/sunset-icon.svg" alt="sunrise-icon">
+            <p class="time">5:42 PM</p>
+          </div>
+        </div>
+
+        <div class="highlight" id="humidity">
+          <p class="highlight-title">Humidity</p>
+          <div class="value-unit">
+            <p class="value">12</p>
+            <p class="unit">%</p>
+          </div>
+          <p class="rating">Normal &#128578</p>
+        </div>
+
+        <div class="highlight" id="visibility">
+          <p class="highlight-title">Visibility</p>
+          <div class="value-unit">
+            <p class="value">5.2</p>
+            <p class="unit">km</p>
+          </div>
+          <p class="rating">Average &#128578</p>
+        </div>
+
+        <div class="highlight" id="uv-index">
+          <p class="highlight-title">UV Index</p>
+          <p class="value">0.21</p>
+          <p class="rating">Normal &#128578</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+
+</body>
+</html>
