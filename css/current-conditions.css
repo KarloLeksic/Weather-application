@@ -1,5 +1,5 @@
 .current-conditions-container {
-  background-color: #fff;
+  background-color: var(--white);
   padding: 50px;
   height: 880px;
 }
@@ -12,6 +12,7 @@
 
 .search-container i {
   margin-right: 10px;
+  color: var(--secondary-color);
 }
 
 .search-container input {
@@ -19,10 +20,12 @@
   border: none;
   padding: 7px 12px;
   border-radius: 5px;
+  background-color: var(--white);
+  color: var(--secondary-color);
 }
 
 .search-container input:focus {
-  outline: 2px solid #f6f6f8;
+  outline: 2px solid var(--primary-color);
 }
 
 .current-conditions .current-weather-icon {
@@ -35,6 +38,7 @@
   font-size: 90px;
   font-weight: 300; /*ne radi iz nekog razloga, probat neki drugi font*/
   /* Todo */
+  color: var(--secondary-color);
 }
 .current-conditions .current-temp sup {
   font-size: 50px;
@@ -43,6 +47,7 @@
 .current-conditions .day {
   margin: 30px 0;
   font-size: 22px;
+  color: var(--secondary-color);
 }
 
 .current-conditions .day span {
@@ -50,7 +55,7 @@
 }
 
 .current-conditions hr {
-  background-color: #f6f6f8;
+  background-color: var(--primary-color);
   border: none;
   height: 2px;
   margin-bottom: 30px;
@@ -62,6 +67,11 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 10px;
+}
+
+.current-conditions .cloudiness p,
+.current-conditions .rain-probability p {
+  color: var(--secondary-color);
 }
 
 .current-conditions .cloudiness img,

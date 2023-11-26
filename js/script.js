@@ -214,6 +214,12 @@ document.querySelectorAll('.temp-units li a').forEach(btn => {
   });
 });
 
+// Dark mode
+const darkModeBtn = document.querySelector('#dark-mode');
+darkModeBtn.addEventListener('change', e => {
+  document.querySelector('html').classList.toggle('dark');
+});
+
 // It's needed to update url after changing units
 function updateApiUrl() {
   API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${currentUnits}&appid=${API_KEY}`;

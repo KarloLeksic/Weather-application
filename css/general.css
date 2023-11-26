@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
+:root {
+  --white: #fff;
+  --background-color: #d6d7da;
+  --primary-color: #f6f6f8;
+  --secondary-color: #1a1a1a;
+}
+
+html.dark {
+  --white: #151515;
+  --background-color: #272727;
+  --primary-color: #1f1f1f;
+  --secondary-color: #f6f6f8;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -9,7 +23,7 @@
 body {
   padding: 50px 0;
   font-family: 'Lato', sans-serif;
-  background-color: #d6d7da;
+  background-color: var(--background-color);
   font-family: sans-serif;
 }
 

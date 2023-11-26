@@ -1,5 +1,5 @@
 .forecast {
-  background-color: #f6f6f8;
+  background-color: var(--primary-color);
   padding: 50px;
   height: 880px;
   width: 100%;
@@ -27,7 +27,7 @@ nav ul li a {
 }
 
 nav ul li a.menu-active {
-  color: #020202;
+  color: var(--secondary-color);
   position: relative;
   font-weight: bold;
 }
@@ -36,15 +36,19 @@ nav ul li a.menu-active::after {
   content: '';
   height: 1px;
   width: 100%;
-  background-color: #020202;
+  background-color: var(--secondary-color);
   position: absolute;
   bottom: -5px;
   left: 0;  
 }
 
+.temp-units {
+  margin-left: 340px;
+}
+
 .temp-units li a {
-  background-color: #fff;
-  color: #020202;
+  background-color: var(--white);
+  color: var(--secondary-color);
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -54,8 +58,77 @@ nav ul li a.menu-active::after {
 }
 
 .temp-units li a.active-unit {
-  background-color: #1a1a1a;
-  color: #fff;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-container span {
+  color: var(--secondary-color);
+}
+
+.toggle-container .toggle {
+  visibility: hidden;
+}
+
+.toggle-container .label {
+  margin-left: 15px;
+  background-color: var(--white);
+  width: 80px;
+  height: 40px;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color .3s linear;
+}
+
+.toggle-container .ball {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 30px;
+  width: 30px;
+  background-color: var(--secondary-color);
+  border-radius: 50%;
+  animation: slideOff .3s linear forwards;
+}
+
+.toggle:checked + label {
+  background-color: #151515;
+}
+
+.toggle:checked + .label .ball {
+  animation: slideOn .3s linear forwards;
+  background-color: #fff;
+}
+
+@keyframes slideOn {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    transform: translateX(20px) scale(1.2);
+  }
+  100% {
+    transform: translateX(40px) scale(1);
+  }
+}
+
+@keyframes slideOff {
+  0% {
+    transform: translateX(40px) scale(1);
+  }
+  50% {
+    transform: translateX(20px) scale(1.2);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
 }
 
 .next-7-days-forecast {
@@ -66,7 +139,7 @@ nav ul li a.menu-active::after {
 }
 
 .next-7-days-forecast .day {
-  background-color: #fff;
+  background-color: var(--white);
   padding: 15px 30px;
   border-radius: 10px;
   display: flex;
@@ -77,6 +150,7 @@ nav ul li a.menu-active::after {
 
 .day .day-in-week {
   font-size: 14px;
+  color: var(--secondary-color);
 }
 
 .day img {
@@ -86,6 +160,7 @@ nav ul li a.menu-active::after {
 
 .day .temp-container p {
   font-size: 14px;
+  color: var(--secondary-color);
   display: inline;
 }
 
