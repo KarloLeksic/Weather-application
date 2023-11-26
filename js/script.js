@@ -35,9 +35,34 @@ const units = {
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const weekdayAbbs = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"];
 
-// For test only
-//const { current } = data;
-//console.log(current);
+// Highlight names are always the same and I want to display each while loading content, so i want to get default titles from data attribute
+const higlightNames = document.querySelectorAll('.highlight');
+
+function showDefaultHiglightNames() {
+  const highlightsEl = document.querySelectorAll('.highlight');
+  highlightsEl.forEach((el, idx) => {
+    el.innerHTML = `<p class="highlight-title">${higlightNames[idx].getAttribute('data-highlight-name')}</p>`;
+  });
+}
+
+// Setting the duration of loading animations (ms) only to be seen 
+const animationDuration = 2000;
+
+// I want to animate elements that contains text before loading the content
+const elementsForLoadingAnimation = document.querySelectorAll('.animated-bg');
+
+function removeLoadingAnimation() {
+  elementsForLoadingAnimation.forEach(el => {
+    el.classList.remove('animated-bg');
+  });
+}
+
+function addLoadingAnimation() {
+  elementsForLoadingAnimation.forEach(el => {
+    el.innerHTML = '';
+    el.classList.add('animated-bg');
+  });
+}
 
 // Inserting weather data for each component on the screen
 function drawWeather(data) {
@@ -48,13 +73,14 @@ function drawWeather(data) {
 
 // Left side
 function drawCurrentConditions(data) {
-  const currentWeatherIcon = document.querySelector('#current-weather-icon');
+  const currentWeatherIconEl = document.querySelector('#current-conditions .icon-big');
   const currentTempEl = document.querySelector('#current-temp');
   const currentDayEl = document.querySelector('#day');
   const currentCloudinessEl = document.querySelector('#cloudiness p');
   const currentRainEl = document.querySelector('#rain-probability p');
+  const cityimageEl = document.querySelector('#city-img-container');
 
-  currentWeatherIcon.src = `images/${data.weather[0].icon}.svg`;
+  currentWeatherIconEl.innerHTML = `<img src="images/${data.weather[0].icon}.svg" alt="current-weather-icon">`;
 
   currentTempEl.innerHTML = `
     ${Math.floor(data.temp)}<sup>${units[currentUnits].temp}</sup>
@@ -69,30 +95,28 @@ function drawCurrentConditions(data) {
 
   const rain = data.rain['1h'];
   currentRainEl.innerHTML = !rain ? 'No rain' : `Rain - <span>${rain} mm/h</span>`;
+
+  // Image from https://static.jutarnji.hr/images/slike/2020/10/08/8912529.jpg?1602690542
+  cityimageEl.innerHTML = `
+    <img src="images/osijek.jpg" alt="city-image">
+    <p>Osijek, Croatia</p>
+  `;
 }
 
 // Inserting values for the week forecast on the right side on top
 function draw7dayForecast(data) {
-  const forecastFor7daysEl = document.querySelector('#next-7-days-forecast');
-  forecastFor7daysEl.innerHTML = '';
+  const daysEl = document.querySelectorAll('#next-7-days-forecast .day');
 
-  // For each day starting on next day, not today
-  for (let i = 1; i <= 7; i++) {
-    // Create element and append it to the main element
-    const dayEl = document.createElement('div');
-    dayEl.classList.add('day');
-
-    dayEl.innerHTML = `
-      <p class="day-in-week">${weekdayAbbs[timeStampToTime(data[i].dt).day]}</p>
-      <img src="images/${data[i].weather[0].icon}.svg" alt="forecast-icon">
+  daysEl.forEach((day, idx) => {
+    day.innerHTML = `
+      <p class="day-in-week">${weekdayAbbs[timeStampToTime(data[idx + 1].dt).day]}</p>
+      <img src="images/${data[idx + 1].weather[0].icon}.svg" alt="forecast-icon">
       <div class="temp-container">
-        <p class="max-temp">${Math.floor(data[i].temp.max)}&deg;</p>
-        <p class="min-temp">${Math.floor(data[i].temp.min)}&deg;</p>
+        <p class="max-temp">${Math.floor(data[idx + 1].temp.max)}&deg;</p>
+        <p class="min-temp">${Math.floor(data[idx + 1].temp.min)}&deg;</p>
       </div>
     `;
-
-    forecastFor7daysEl.appendChild(dayEl);
-  }
+  });
 }
 
 // Inserting values in Today's Highlights section
@@ -106,39 +130,54 @@ function drawHighlights(data) {
 }
 
 function drawFeelsLike(feelsLikeTemp) {
-  const feelsLikeEl = document.querySelector('#feels-like .value');
+  const feelsLikeEl = document.querySelector('#feels-like');
 
   feelsLikeEl.innerHTML = `
-    ${feelsLikeTemp.toFixed(0)}<sup>${units[currentUnits].temp}</sup>
+    <p class="highlight-title">Feels like</p>
+    <p class="value">
+      ${feelsLikeTemp.toFixed(0)}<sup>${units[currentUnits].temp}
+    </p>
   `;
 }
 
 function drawWindStatus(windSpeed, windDirection) {
-  const windStatusEl = document.querySelector('#wind .value-unit');
-  const windDirectionEl = document.querySelector('#wind .wind-direction p');
-  const windDirectionIcon = document.querySelector('#wind .img-container');
+  const windStatusEl = document.querySelector('#wind');
 
   windStatusEl.innerHTML = `
-    <p class="value">${windSpeed.toFixed(1)}</p>
-    <p class="unit">${units[currentUnits].wind}</p>
+    <p class="highlight-title">Wind Status</p>
+    <div class="value-unit">
+      <p class="value">${windSpeed.toFixed(1)}</p>
+      <p class="unit">${units[currentUnits].wind}</p>
+    </div>
+    <div class="wind-direction">
+      <div class="img-container" style="transform: rotateZ(${windDirection - 45}deg);">
+        <i class="fa-solid fa-location-arrow"></i>
+      </div>
+      <p>${windDirection}&deg;</p>
+    </div>
   `;
-
-  windDirectionEl.innerHTML = `${windDirection}&deg;`;
-  windDirectionIcon.style.transform = `rotateZ(${windDirection - 45}deg)`; // Because icon is by default on 45 degs
 }
 
 function drawSunriseAndSunset(sunrise, sunset) {
-  const sunriseTimeEl = document.querySelector('#sunrise-sunset .sunrise .time');
-  const sunsetTimeEl = document.querySelector('#sunrise-sunset .sunset .time');
-
+  const sunriseSunsetEl = document.querySelector('#sunrise-sunset');
   const sunriseTime = timeStampToTime(sunrise);
-  sunriseTimeEl.innerHTML = `${sunriseTime.hours}:${sunriseTime.minutes}`;
-
   const sunsetTime = timeStampToTime(sunset);
-  sunsetTimeEl.innerHTML = `${sunsetTime.hours}:${sunsetTime.minutes}`;
+
+  sunriseSunsetEl.innerHTML = `
+    <p class="highlight-title">Sunrise & Sunset</p>
+    <div class="sunrise">
+      <img src="images/sunrise-icon.svg" alt="sunrise-icon">
+      <p class="time">${sunriseTime.hours}:${sunriseTime.minutes}</p>
+    </div>
+    <div class="sunset">
+      <img src="images/sunset-icon.svg" alt="sunrise-icon">
+      <p class="time">${sunsetTime.hours}:${sunsetTime.minutes}</p>
+    </div>
+  `;
 }
 
 function drawHumidity(humidity) {
+  const humidityEl = document.querySelector('#humidity');
   let rating = '';
 
   if (humidity < 40) {
@@ -149,14 +188,25 @@ function drawHumidity(humidity) {
     rating = 'Normal &#128512';
   }
 
-  document.querySelector('#humidity .value').innerHTML = humidity;
-  document.querySelector('#humidity .rating').innerHTML = rating;
+  humidityEl.innerHTML = `
+    <p class="highlight-title">Humidity</p>
+    <div class="value-unit">
+      <p class="value">${humidity}</p>
+      <p class="unit">%</p>
+    </div>
+    <p class="rating">${rating}</p>
+    <div class="range">
+      <div class="circle" style="bottom: ${scale(humidity, 0, 100, 3, 73)}px;"></div>
+    </div>
+  `;
+
   document.querySelector('#humidity .range .circle').style.bottom = `
     ${scale(humidity, 0, 100, 3, 73)}px
   `;
 }
 
 function drawVisibility(visibility) {
+  const visibilityEl = document.querySelector('#visibility');
   let rating = '';
 
   if (visibility > 8000) {
@@ -169,8 +219,14 @@ function drawVisibility(visibility) {
     rating = 'Bad &#128542';
   }
 
-  document.querySelector('#visibility .value').innerHTML = (visibility / 1000).toFixed(1);
-  document.querySelector('#visibility .rating').innerHTML = rating;
+  visibilityEl.innerHTML = `
+    <p class="highlight-title">Visibility</p>
+    <div class="value-unit">
+      <p class="value">${(visibility / 1000).toFixed(1)}</p>
+      <p class="unit">km</p>
+    </div>
+    <p class="rating">${rating}</p>
+  `;
 }
 
 function drawUvIndex(uvIndex) {
@@ -194,12 +250,18 @@ function drawUvIndex(uvIndex) {
     color = 'green';
   }
 
-  document.querySelector('#uv-index .value').innerHTML = uvIndex;
-  document.querySelector('#uv-index .rating').innerHTML = rating;
-
-  const rangeSliderEl = document.querySelector('#uv-index .range .circle');
-  rangeSliderEl.style.bottom = `${scale(uvIndex, 0, 15, 3, 73)}px`;
-  rangeSliderEl.style.backgroundColor = color;
+  const uvIndexEl = document.querySelector('#uv-index');
+  uvIndexEl.innerHTML = `
+    <p class="highlight-title">UV Index</p>
+    <p class="value">${uvIndex}</p>
+    <p class="rating">${rating}</p>
+    <div class="range">
+      <div class="circle" style="
+        bottom: ${scale(uvIndex, 0, 15, 3, 73)}px; 
+        background-color: ${color};">
+      </div>
+    </div>
+  `;
 }
 
 // Buttons for changing units
@@ -210,7 +272,10 @@ document.querySelectorAll('.temp-units li a').forEach(btn => {
     removeActiveUnitClass();
     e.target.classList.add('active-unit');
 
-    fetchWeatherData();
+    removeCityImageFilter();
+    addLoadingAnimation();
+    showDefaultHiglightNames();
+    setTimeout(fetchWeatherData, animationDuration);
   });
 });
 
@@ -257,8 +322,27 @@ async function fetchWeatherData() {
   //const data = await res.json();
 
   // Draw everything
-  drawWeather(data);
+  if (data) {
+    drawWeather(data);
+    addCityImageFilter();
+    removeLoadingAnimation();
+  }
+}
+
+// So that the loading animation would be the same color as the others
+function removeCityImageFilter() {
+  const img = document.querySelector('#city-img-container');
+  img.style.setProperty('--img-filter', 'rgba(0, 0, 0, 0)');
+}
+
+// Returning the filter after animation complete
+function addCityImageFilter() {
+  const img = document.querySelector('#city-img-container');
+  img.style.setProperty('--img-filter', 'rgba(0, 0, 0, .45)');
 }
 
 // Fetching default data on load
-fetchWeatherData();
+// A short wait to see the animation (I know it doesn't apply like this)
+removeCityImageFilter();
+showDefaultHiglightNames();
+setTimeout(fetchWeatherData, animationDuration);

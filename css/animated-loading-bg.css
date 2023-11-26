@@ -1,0 +1,41 @@
+.animated-bg {
+  background-image: linear-gradient(to right, var(--background-color) 0%, var(--animation-loading-color) 10%, var(--background-color) 20%, var(--background-color) 100%);
+  background-size: 200% 100%;
+  animation: bgLoading 1s linear infinite;
+}
+
+.animated-bg-icon {
+  width: 210px;
+  height: 210px;
+  border-radius: 20px;
+}
+
+.animated-bg-text {
+  border-radius: 50px;
+  display: inline-block;
+  height: 10px;
+  width: 100%;
+}
+
+.animated-bg-text {
+  border-radius: 50px;
+  display: inline-block;
+  height: 10px;
+  width: 100%;
+}
+
+.animated-bg-text-big {
+  border-radius: 20px;
+  display: inline-block;
+  height: 90px;
+  width: 210px;
+}
+
+@keyframes bgLoading {
+  0%{
+    background-position: 50% 0;
+  }
+  100% {
+    background-position: -150% 0;
+  }
+}

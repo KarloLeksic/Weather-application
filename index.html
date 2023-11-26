@@ -10,11 +10,13 @@
   <link rel="stylesheet" href="css/current-conditions.css">
   <link rel="stylesheet" href="css/forecast.css">
   <link rel="stylesheet" href="css/highlights.css">
+  <link rel="stylesheet" href="css/animated-loading-bg.css">
   <title>Karlito Weather</title>
 </head>
 <body>
 
   <div class="weather-container">
+
     <div class="current-conditions-container">
 
       <div class="search-container">
@@ -22,32 +24,33 @@
         <input type="text" id="search-places" placeholder="Search for places ...">
       </div>
 
-      <div class="current-conditions">
-        <img class="current-weather-icon" id="current-weather-icon" src="images/02d.svg" alt="current-weather-icon">
-        <p class="current-temp" id="current-temp">12<sup>&deg;C</sup></p>
-        <p class="day" id="day">Monday, <span>16:00</span></p>
+      <div class="current-conditions" id="current-conditions">
+        <div class="icon-big animated-bg animated-bg-icon"></div>
+
+        <p class="current-temp animated-bg animated-bg-text-big" id="current-temp"></p>
+        <p class="day animated-bg animated-bg-text" id="day"></p>
+
         <hr>
 
         <div class="cloudiness" id="cloudiness">
           <img src="images/cloud-icon.svg" alt="cloud-icon">
-          <p>Mostly Cloudy</p>
+          <p class="animated-bg animated-bg-text"></p>
         </div>
 
         <div class="rain-probability" id="rain-probability">
           <img src="images/rain-icon.svg" alt="cloud-icon">
-          <p>Rain - <span>2 mm/h</span></p>
+          <p class="animated-bg animated-bg-text"></p>
         </div>
 
-        <div class="city-img-container">
-          <!-- Image from https://static.jutarnji.hr/images/slike/2020/10/08/8912529.jpg?1602690542 -->
-          <img src="images/osijek.jpg" alt="city-image">
-          <p>Osijek, Croatia</p>
-        </div>
+        <div class="city-img-container animated-bg" id="city-img-container"></div>
+
       </div>
+
     </div>
 
     <div class="forecast">
       <nav>
+
         <ul>
           <li><a href="#">Today</a></li>
           <li><a href="#" class="menu-active">Week</a></li>
@@ -65,134 +68,40 @@
             <div class="ball"></div>
           </label>
         </div>
+
       </nav>
 
       <div class="next-7-days-forecast" id="next-7-days-forecast">
-        <div class="day">
-          <p class="day-in-week">Sat</p>
-          <img src="images/01d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
 
-        <div class="day">
-          <p>Sun</p>
-          <img src="images/02d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
+        <div class="day animated-bg"></div>
+        <div class="day animated-bg"></div>
+        <div class="day animated-bg"></div>
+        <div class="day animated-bg"></div>
+        <div class="day animated-bg"></div>
+        <div class="day animated-bg"></div>
+        <div class="day animated-bg"></div>
 
-        <div class="day">
-          <p>Mon</p>
-          <img src="images/03d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
-
-        <div class="day">
-          <p>Tue</p>
-          <img src="images/10d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
-
-        <div class="day">
-          <p>Wed</p>
-          <img src="images/09d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
-
-        <div class="day">
-          <p>Thu</p>
-          <img src="images/50d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
-
-        <div class="day">
-          <p>Fri</p>
-          <img src="images/11d.svg" alt="forecast-icon">
-          <div class="temp-container">
-            <p class="max-temp">15&deg;</p>
-            <p class="min-temp">-3&deg;</p>
-          </div>
-        </div>
       </div>
 
       <h3>Today's Highlights</h3>
       <div class="todays-higlights-container">
-        <div class="highlight feels-like" id="feels-like">
-          <p class="highlight-title">Feels like</p>
-          <p class="value">-5<sup>&deg;C</sup></p>
+
+        <div class="highlight feels-like animated-bg" id="feels-like" data-highlight-name="Feels like">
         </div>
 
-        <div class="highlight wind" id="wind">
-          <p class="highlight-title">Wind Status</p>
-          <div class="value-unit">
-            <p class="value">7.70</p>
-            <p class="unit">m/s</p>
-          </div>
-          <div class="wind-direction">
-            <div class="img-container">
-              <i class="fa-solid fa-location-arrow"></i>
-            </div>
-            <p>WSW</p>
-          </div>
+        <div class="highlight wind animated-bg" id="wind" data-highlight-name="Wind Status">
         </div>
 
-        <div class="highlight sunrise-sunset" id="sunrise-sunset">
-          <p class="highlight-title">Sunrise & Sunset</p>
-          <div class="sunrise">
-            <img src="images/sunrise-icon.svg" alt="sunrise-icon">
-            <p class="time">6:35 AM</p>
-          </div>
-          <div class="sunset">
-            <img src="images/sunset-icon.svg" alt="sunrise-icon">
-            <p class="time">5:42 PM</p>
-          </div>
+        <div class="highlight sunrise-sunset animated-bg" id="sunrise-sunset" data-highlight-name="Sunrise & Sunset">
         </div>
 
-        <div class="highlight humidity" id="humidity">
-          <p class="highlight-title">Humidity</p>
-          <div class="value-unit">
-            <p class="value">12</p>
-            <p class="unit">%</p>
-          </div>
-          <p class="rating">Normal &#128578</p>
-          <div class="range">
-            <div class="circle"></div>
-          </div>
+        <div class="highlight humidity animated-bg" id="humidity" data-highlight-name="Humidity">
         </div>
 
-        <div class="highlight" id="visibility">
-          <p class="highlight-title">Visibility</p>
-          <div class="value-unit">
-            <p class="value">5.2</p>
-            <p class="unit">km</p>
-          </div>
-          <p class="rating">Average &#128578</p>
+        <div class="highlight animated-bg" id="visibility" data-highlight-name="Visibility">
         </div>
 
-        <div class="highlight uv-index" id="uv-index">
-          <p class="highlight-title">UV Index</p>
-          <p class="value">0.21</p>
-          <p class="rating">Normal &#128578</p>
-          <div class="range">
-            <div class="circle"></div>
-          </div>
+        <div class="highlight uv-index animated-bg" id="uv-index" data-highlight-name="UV Index">
         </div>
 
       </div>
