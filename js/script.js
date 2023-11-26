@@ -10,6 +10,7 @@ const API_KEY = '515dec0a2bba409a1646e0869a600cda';
 // Api url for onecall 2.5
 let API_URL = ``;
 
+// Define measuring units
 const units = {
   standard: {
     temp: 'K',
@@ -25,17 +26,22 @@ const units = {
   }
 };
 
+// Weekdays for getting the day's name depending on the day index
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const weekdayAbbs = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"];
 
-const { current } = data;
+// For test only
+//const { current } = data;
+//console.log(current);
 
+// Inserting weather data for each component on the screen
 function drawWeather(data) {
   drawCurrentConditions(data.current);
   draw7dayForecast(data.daily);
   drawHighlights(data.current);
 }
 
+// Left side
 function drawCurrentConditions(data) {
   // Set current weather icon
   document.querySelector('#current-weather-icon').src = `images/${data.weather[0].icon}.svg`;
@@ -56,39 +62,31 @@ function drawCurrentConditions(data) {
   document.querySelector('.rain-probability p').innerHTML = rainHTML;
 }
 
-function timeStampToTime(timestamp) {
-  const date = new Date(timestamp * 1000);
-
-  const day = date.getDay();
-  const hours = date.getHours();
-  const m = date.getMinutes();
-  const minutes = m < 10 ? '0' + m : m;
-
-  return { day, hours, minutes };
-}
-
+// Inserting values for the week forecast on the right side on top
 function draw7dayForecast(data) {
   const forecastFor7daysEl = document.querySelector('#next-7-days-forecast');
   forecastFor7daysEl.innerHTML = '';
 
+  // For each day starting on next day, not today
   for (let i = 1; i <= 7; i++) {
+    // Create element and append it to the main element
     const dayEl = document.createElement('div');
     dayEl.classList.add('day');
 
-
     dayEl.innerHTML = `
-    <p class="day-in-week">${weekdayAbbs[timeStampToTime(data[i].dt).day]}</p>
-    <img src="images/${data[i].weather[0].icon}.svg" alt="forecast-icon">
-    <div class="temp-container">
-      <p class="max-temp">${Math.floor(data[i].temp.max)}&deg;</p>
-      <p class="min-temp">${Math.floor(data[i].temp.min)}&deg;</p>
-    </div>
+      <p class="day-in-week">${weekdayAbbs[timeStampToTime(data[i].dt).day]}</p>
+      <img src="images/${data[i].weather[0].icon}.svg" alt="forecast-icon">
+      <div class="temp-container">
+        <p class="max-temp">${Math.floor(data[i].temp.max)}&deg;</p>
+        <p class="min-temp">${Math.floor(data[i].temp.min)}&deg;</p>
+      </div>
     `;
 
     forecastFor7daysEl.appendChild(dayEl);
   }
 }
 
+// Inserting values in Today's Highlights section
 function drawHighlights(data) {
   drawFeelsLike(+data.feels_like);
   drawWindStatus(+data.wind_speed, +data.wind_deg);
@@ -109,8 +107,7 @@ function drawWindStatus(windSpeed, windDirection) {
 `;
 
   document.querySelector('#wind .wind-direction p').innerHTML = `${windDirection}&deg;`;
-
-  document.querySelector('#wind .img-container').style.transform = `rotateZ(${windDirection -45}deg)`;
+  document.querySelector('#wind .img-container').style.transform = `rotateZ(${windDirection - 45}deg)`;
 }
 
 function drawSunriseAndSunset(sunrise, sunset) {
@@ -183,7 +180,7 @@ function drawUvIndex(uvIndex) {
   rangeSliderEl.style.backgroundColor = color;
 }
 
-// Button for changing units
+// Buttons for changing units
 document.querySelectorAll('.temp-units li a').forEach(btn => {
   btn.addEventListener('click', (e) => {
     currentUnits = e.target.getAttribute('data-unit');
@@ -195,6 +192,7 @@ document.querySelectorAll('.temp-units li a').forEach(btn => {
   });
 });
 
+// It's needed to update url after changing units
 function updateApiUrl() {
   API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${currentUnits}&appid=${API_KEY}`;
 }
@@ -205,17 +203,32 @@ function removeActiveUnitClass() {
   });
 }
 
+// Convert numbers from one range to another
 function scale(x, in_min, in_max, out_min, out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-// ovaj fetch radi
+// Get the day, hours, and minutes from the passed timestamp
+function timeStampToTime(timestamp) {
+  const date = new Date(timestamp * 1000);
+
+  const day = date.getDay();
+  const hours = date.getHours();
+  const m = date.getMinutes();
+  const minutes = m < 10 ? '0' + m : m;
+
+  return { day, hours, minutes };
+}
+
+// Main function for fetching data from API and drawing everything on the screen
 async function fetchWeatherData() {
   updateApiUrl();
+  // Commented because of the limited number of requests for free usage
   //const res = await fetch(API_URL);
   //const data = await res.json();
 
+  // Draw everything
   drawWeather(data);
 }
-
+// Fetching default data on load
 fetchWeatherData();
