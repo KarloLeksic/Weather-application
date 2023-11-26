@@ -92,7 +92,7 @@ function drawCurrentConditions(data) {
   `;
 
   currentCloudinessEl.innerHTML = `${data.clouds}% cloudiness`;
- 
+
   // Set rain if exist
   let rain = data.current?.rain?.["1h"] || 'No Rain';
   currentRainEl.innerHTML = rain;
@@ -231,38 +231,13 @@ function drawVisibility(visibility) {
 }
 
 function drawUvIndex(uvIndex) {
-  let rating = '';
-  let color = '';
-
-  if (uvIndex >= 11) {
-    rating = 'Extremely High &#128552';
-    color = 'red';
-  } else if (uvIndex >= 8) {
-    rating = 'Very High &#128547';
-    color = 'orange'
-  } else if (uvIndex >= 6) {
-    rating = 'High &#128528';
-    color = 'yellow';
-  } else if (uvIndex >= 3) {
-    rating = 'Moderate &#128578';
-    color = 'lightgreen';
-  } else {
-    rating = 'Low &#128512';
-    color = 'green';
-  }
-
-  const uvIndexEl = document.querySelector('#uv-index');
+  /*const uvIndexEl = document.querySelector('#uv-index');
   uvIndexEl.innerHTML = `
     <p class="highlight-title">UV Index</p>
-    <p class="value">${uvIndex}</p>
-    <p class="rating">${rating}</p>
-    <div class="range">
-      <div class="circle" style="
-        bottom: ${scale(uvIndex, 0, 15, 3, 73)}px; 
-        background-color: ${color};">
-      </div>
-    </div>
-  `;
+    <canvas id="uv-index-graph" width="190" height="100"></canvas>
+  `;*/
+
+  animateGraph(15);
 }
 
 // Buttons for changing units
@@ -274,8 +249,8 @@ document.querySelectorAll('.temp-units li a').forEach(btn => {
     e.target.classList.add('active-unit');
 
     removeCityImageFilter();
-    addLoadingAnimation();
-    showDefaultHiglightNames();
+    //addLoadingAnimation();
+    //showDefaultHiglightNames();
     setTimeout(fetchWeatherData, animationDuration);
   });
 });
@@ -345,5 +320,5 @@ function addCityImageFilter() {
 // Fetching default data on load
 // A short wait to see the animation (I know it doesn't apply like this)
 removeCityImageFilter();
-showDefaultHiglightNames();
+//showDefaultHiglightNames();
 setTimeout(fetchWeatherData, animationDuration);

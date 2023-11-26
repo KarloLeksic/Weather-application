@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polukružni Graf s Obojenom Linijom i Animacijom</title>
+</head>
+<body>
+  <!-- SVG element gdje će biti prikazan polukružni graf -->
+  <svg id="polukruzniGraf" width="300" height="200" xmlns="http://www.w3.org/2000/svg"></svg>
+  <p>bok</p>
+
+  <script>
+    // Dohvaćanje SVG elementa
+    var svg = document.getElementById('polukruzniGraf');
+
+    // Središte kruga
+    var centerX = 150;
+    var centerY = 150;
+
+    // Radijus kruga (prilagodi prema potrebama)
+    var radius = 130;
+
+    // Debljina sive linije koja predstavlja polukrug
+    var lineThickness = 15;
+
+    // Debljina obojene linije koja predstavlja postotak (prilagodi prema potrebama)
+    var coloredLineThickness = 25;
+
+    // Željeni postotak
+    var wantedPercentage = 50;
+
+    // Funkcija za crtanje sive polukruga
+    function drawGrayArc() {
+      var grayArc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      grayArc.setAttribute('cx', centerX);
+      grayArc.setAttribute('cy', centerY);
+      grayArc.setAttribute('r', radius);
+      grayArc.setAttribute('stroke', '#d3d3d3');
+      grayArc.setAttribute('stroke-width', lineThickness);
+      grayArc.setAttribute('fill', 'none');
+      svg.appendChild(grayArc);
+    }
+
+    // Funkcija za crtanje obojene linije proporcionalno postotku
+    function drawColoredLine(percentage) {
+      // Računanje kuta prema postotku (maksimalno 180 stupnjeva)
+      var angle = Math.PI + Math.PI * percentage / 100;
+
+      // Računanje boje prema postotku (crvena za 0%, zelena za 100%)
+      var hue = 120 - (percentage / 100) * 120; // Obrnuta nijansa
+      var rgbColor = hslToRgb(hue, 100, 50);
+
+      // Crtanje obojene linije
+      var coloredLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      var x1 = centerX + radius * Math.cos(Math.PI);
+      var y1 = centerY + radius * Math.sin(Math.PI);
+      var x2 = centerX + radius * Math.cos(angle);
+      var y2 = centerY + radius * Math.sin(angle);
+      var pathData = `M${x1},${y1} A${radius},${radius} 0 ${percentage <= 50 ? 0 : 1} 1 ${x2},${y2}`;
+      coloredLine.setAttribute('d', pathData);
+      coloredLine.setAttribute('stroke', `rgb(${rgbColor.join(', ')})`);
+      coloredLine.setAttribute('stroke-width', coloredLineThickness);
+      coloredLine.setAttribute('fill', 'none');
+      svg.appendChild(coloredLine);
+    }
+
+    // Funkcija za pretvaranje HSL boje u RGB boju
+    function hslToRgb(h, s, l){
+      h /= 360;
+      s /= 100;
+      l /= 100;
+      var r, g, b;
+
+      if (s === 0) {
+        r = g = b = l; // Ako je zasićenost 0, boja je siva
+      } else {
+        var hue2rgb = function hue2rgb(p, q, t){
+          if(t < 0) t += 1;
+          if(t > 1) t -= 1;
+          if(t < 1/6) return p + (q - p) * 6 * t;
+          if(t < 1/2) return q;
+          if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+
+      return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    }
+
+    // Prikazivanje sive polukruga i obojene linije s postotkom
+    drawGrayArc();
+    drawColoredLine(wantedPercentage);
+
+  </script>
+</body>
+</html>

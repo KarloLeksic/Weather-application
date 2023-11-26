@@ -127,3 +127,7 @@ h3 {
   bottom: 73px; /* from 3px to 73px is from 0% to 100%*/
   left: 3px;
 }
+
+.uv-index canvas {
+  margin-bottom: 10px;
+}
