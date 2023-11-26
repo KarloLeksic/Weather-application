@@ -35,7 +35,7 @@
 
         <div class="rain-probability">
           <img src="images/rain-icon.svg" alt="cloud-icon">
-          <p>Rain - <span>30%</span></p>
+          <p>Rain - <span>2 mm/h</span></p>
         </div>
 
         <div class="city-img-container">
@@ -53,8 +53,8 @@
           <li><a href="#" class="menu-active">Week</a></li>
         </ul>
         <ul class="temp-units">
-          <li><a href="#" class="active-unit" data-units="metric">&deg;C</a></li>
-          <li><a href="#" data-units="imperial">&deg;F</a></li>
+          <li><a href="#" class="active-unit" data-unit="metric">&deg;C</a></li>
+          <li><a href="#" data-unit="imperial">&deg;F</a></li>
         </ul>
       </nav>
 
@@ -137,7 +137,9 @@
             <p class="unit">m/s</p>
           </div>
           <div class="wind-direction">
-            <img src="images/wind-icon.svg" alt="wind-icon">
+            <div class="img-container">
+              <i class="fa-solid fa-location-arrow"></i>
+            </div>
             <p>WSW</p>
           </div>
         </div>
@@ -154,13 +156,16 @@
           </div>
         </div>
 
-        <div class="highlight" id="humidity">
+        <div class="highlight humidity" id="humidity">
           <p class="highlight-title">Humidity</p>
           <div class="value-unit">
             <p class="value">12</p>
             <p class="unit">%</p>
           </div>
           <p class="rating">Normal &#128578</p>
+          <div class="range">
+            <div class="circle"></div>
+          </div>
         </div>
 
         <div class="highlight" id="visibility">
@@ -172,10 +177,13 @@
           <p class="rating">Average &#128578</p>
         </div>
 
-        <div class="highlight" id="uv-index">
+        <div class="highlight uv-index" id="uv-index">
           <p class="highlight-title">UV Index</p>
           <p class="value">0.21</p>
           <p class="rating">Normal &#128578</p>
+          <div class="range">
+            <div class="circle"></div>
+          </div>
         </div>
 
       </div>
