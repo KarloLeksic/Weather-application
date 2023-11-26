@@ -35,34 +35,9 @@ const units = {
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const weekdayAbbs = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"];
 
-// Highlight names are always the same and I want to display each while loading content, so i want to get default titles from data attribute
-const higlightNames = document.querySelectorAll('.highlight');
-
-function showDefaultHiglightNames() {
-  const highlightsEl = document.querySelectorAll('.highlight');
-  highlightsEl.forEach((el, idx) => {
-    el.innerHTML = `<p class="highlight-title">${higlightNames[idx].getAttribute('data-highlight-name')}</p>`;
-  });
-}
-
 // Setting the duration of loading animations (ms) only to be seen 
 const animationDuration = 1500;
 
-// I want to animate elements that contains text before loading the content
-const elementsForLoadingAnimation = document.querySelectorAll('.animated-bg');
-
-function removeLoadingAnimation() {
-  elementsForLoadingAnimation.forEach(el => {
-    el.classList.remove('animated-bg');
-  });
-}
-
-function addLoadingAnimation() {
-  elementsForLoadingAnimation.forEach(el => {
-    el.innerHTML = '';
-    el.classList.add('animated-bg');
-  });
-}
 
 // Inserting weather data for each component on the screen
 function drawWeather(data) {
@@ -265,54 +240,9 @@ function drawUvIndex(uvIndex) {
   `;
 }
 
-// Buttons for changing units
-document.querySelectorAll('.temp-units li a').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    currentUnits = e.target.getAttribute('data-unit');
-
-    removeActiveUnitClass();
-    e.target.classList.add('active-unit');
-
-    removeCityImageFilter();
-    addLoadingAnimation();
-    showDefaultHiglightNames();
-    setTimeout(fetchWeatherData, animationDuration);
-  });
-});
-
-// Dark mode
-const darkModeBtn = document.querySelector('#dark-mode');
-darkModeBtn.addEventListener('change', e => {
-  document.querySelector('html').classList.toggle('dark');
-});
-
 // It's needed to update url after changing units
 function updateApiUrl() {
   API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${currentUnits}&appid=${API_KEY}`;
-}
-
-function removeActiveUnitClass() {
-  const unitButtons = document.querySelectorAll('.temp-units li a');
-  unitButtons.forEach(btn => {
-    btn.classList.remove('active-unit');
-  });
-}
-
-// Convert numbers from one range to another
-function scale(x, in_min, in_max, out_min, out_max) {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-// Get the day, hours, and minutes from the passed timestamp
-function timeStampToTime(timestamp) {
-  const date = new Date(timestamp * 1000);
-
-  const day = date.getDay();
-  const hours = date.getHours();
-  const m = date.getMinutes();
-  const minutes = m < 10 ? '0' + m : m;
-
-  return { day, hours, minutes };
 }
 
 // Main function for fetching data from API and drawing everything on the screen
@@ -329,21 +259,3 @@ async function fetchWeatherData() {
     removeLoadingAnimation();
   }
 }
-
-// Remove image filter so that the loading animation would be the same color as the others
-function removeCityImageFilter() {
-  const img = document.querySelector('#city-img-container');
-  img.style.setProperty('--img-filter', 'rgba(0, 0, 0, 0)');
-}
-
-// Returning the filter after animation complete
-function addCityImageFilter() {
-  const img = document.querySelector('#city-img-container');
-  img.style.setProperty('--img-filter', 'rgba(0, 0, 0, .45)');
-}
-
-// Fetching default data on load
-// A short wait to see the animation (I know it doesn't apply like this)
-removeCityImageFilter();
-showDefaultHiglightNames();
-setTimeout(fetchWeatherData, animationDuration);
