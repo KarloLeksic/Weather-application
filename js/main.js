@@ -24,3 +24,29 @@ const darkModeBtn = document.querySelector('#dark-mode');
 darkModeBtn.addEventListener('change', e => {
   document.querySelector('html').classList.toggle('dark');
 });
+
+// Search for cities
+const searchForm = document.querySelector('form');
+const cityInputEl = document.querySelector('#search-places');
+searchForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const searchedTerm = cityInputEl.value;
+  cityInputEl.value = '';
+
+  drawWeatherForAnotherCity(searchedTerm);
+});
+
+async function drawWeatherForAnotherCity(searchedTerm) {
+  const city = await getCoordinates(searchedTerm);
+
+  const { fullName, latitude, longitude } = city;
+  lat = latitude;
+  lon = longitude;
+  currLocation = fullName;
+
+  removeCityImageFilter();
+  addLoadingAnimation();
+  showDefaultHiglightNames();
+  setTimeout(fetchWeatherData, animationDuration);
+}

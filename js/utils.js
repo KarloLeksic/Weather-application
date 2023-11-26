@@ -24,7 +24,7 @@ function removeCityImageFilter() {
 // Returning the filter after animation complete
 function addCityImageFilter() {
   const img = document.querySelector('#city-img-container');
-  img.style.setProperty('--img-filter', 'rgba(0, 0, 0, .45)');
+  img.style.setProperty('--img-filter', 'rgba(0, 0, 0, .35)');
 }
 
 // For unit buttons

@@ -20,8 +20,10 @@
     <div class="current-conditions-container">
 
       <div class="search-container">
-        <label for="search-places"><i class="fas fa-search"></i></label>
-        <input type="text" id="search-places" placeholder="Search for places ...">
+        <form>
+          <label for="search-places"><i class="fas fa-search"></i></label>
+          <input type="text" id="search-places" placeholder="Search for places ..." autocomplete="off">
+        </form>
       </div>
 
       <div class="current-conditions" id="current-conditions">
@@ -108,6 +110,7 @@
     </div>
   </div>
 
+  <script src="js/citySearch.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/weather.js"></script>
   <script src="js/main.js"></script>

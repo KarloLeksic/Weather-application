@@ -6,7 +6,7 @@
   --primary-color: #f6f6f8;
   --secondary-color: #1a1a1a;
   --animation-loading-color: #cdcdcd;
-  --img-filter: rgba(0, 0, 0, .45);
+  --img-filter: rgba(0, 0, 0, .35);
 }
 
 html.dark {
