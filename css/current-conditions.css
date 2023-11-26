@@ -1,10 +1,7 @@
 .current-conditions-container {
+  background-color: #fff;
   padding: 50px;
   height: 880px;
-}
-
-.current-conditions-container {
-  background-color: #fff;
 }
 
 .search-container {
@@ -37,6 +34,7 @@
   margin-top: 20px;
   font-size: 90px;
   font-weight: 300; /*ne radi iz nekog razloga, probat neki drugi font*/
+  /* Todo */
 }
 .current-conditions .current-temp sup {
   font-size: 50px;

@@ -4,10 +4,15 @@ const data = JSON.parse(`{"lat":45.555,"lon":18.6955,"timezone":"Europe/Zagreb",
 // Default coordinates for Osijek
 let lat = 45.554962;
 let lon = 18.695514;
+
+// Default metric units
 let currentUnits = 'metric';
+
+// My API key - free 1 000 000 calls per month / 60 per minute
 const API_KEY = '515dec0a2bba409a1646e0869a600cda';
 
 // Api url for onecall 2.5
+// https://openweathermap.org/api/one-call-api
 let API_URL = ``;
 
 // Define measuring units
@@ -43,23 +48,27 @@ function drawWeather(data) {
 
 // Left side
 function drawCurrentConditions(data) {
-  // Set current weather icon
-  document.querySelector('#current-weather-icon').src = `images/${data.weather[0].icon}.svg`;
+  const currentWeatherIcon = document.querySelector('#current-weather-icon');
+  const currentTempEl = document.querySelector('#current-temp');
+  const currentDayEl = document.querySelector('#day');
+  const currentCloudinessEl = document.querySelector('#cloudiness p');
+  const currentRainEl = document.querySelector('#rain-probability p');
 
-  // Set current temperature
-  document.querySelector('#current-temp').innerHTML = `${Math.floor(data.temp)}<sup>${units[currentUnits].temp}</sup>`;
+  currentWeatherIcon.src = `images/${data.weather[0].icon}.svg`;
 
-  // Set current day and time
+  currentTempEl.innerHTML = `
+    ${Math.floor(data.temp)}<sup>${units[currentUnits].temp}</sup>
+  `;
+
   const time = timeStampToTime(data.dt);
-  document.querySelector('#day').innerHTML = `${weekday[time.day]}, <span>${time.hours}:${time.minutes}</span>`;
+  currentDayEl.innerHTML = `
+    ${weekday[time.day]}, <span>${time.hours}:${time.minutes}</span>
+  `;
 
-  // Set cloudiness
-  document.querySelector('.cloudiness p').innerHTML = `${data.clouds}% cloudiness`;
+  currentCloudinessEl.innerHTML = `${data.clouds}% cloudiness`;
 
-  // Set rain
   const rain = data.rain['1h'];
-  const rainHTML = !rain ? 'No rain' : `Rain - <span>${rain} mm/h</span>`;
-  document.querySelector('.rain-probability p').innerHTML = rainHTML;
+  currentRainEl.innerHTML = !rain ? 'No rain' : `Rain - <span>${rain} mm/h</span>`;
 }
 
 // Inserting values for the week forecast on the right side on top
@@ -97,25 +106,36 @@ function drawHighlights(data) {
 }
 
 function drawFeelsLike(feelsLikeTemp) {
-  document.querySelector('#feels-like .value').innerHTML = `${feelsLikeTemp.toFixed(0)}<sup>${units[currentUnits].temp}</sup>`;
+  const feelsLikeEl = document.querySelector('#feels-like .value');
+
+  feelsLikeEl.innerHTML = `
+    ${feelsLikeTemp.toFixed(0)}<sup>${units[currentUnits].temp}</sup>
+  `;
 }
 
 function drawWindStatus(windSpeed, windDirection) {
-  document.querySelector('#wind .value-unit').innerHTML = `
-  <p class="value">${windSpeed.toFixed(1)}</p>
-  <p class="unit">${units[currentUnits].wind}</p>
-`;
+  const windStatusEl = document.querySelector('#wind .value-unit');
+  const windDirectionEl = document.querySelector('#wind .wind-direction p');
+  const windDirectionIcon = document.querySelector('#wind .img-container');
 
-  document.querySelector('#wind .wind-direction p').innerHTML = `${windDirection}&deg;`;
-  document.querySelector('#wind .img-container').style.transform = `rotateZ(${windDirection - 45}deg)`;
+  windStatusEl.innerHTML = `
+    <p class="value">${windSpeed.toFixed(1)}</p>
+    <p class="unit">${units[currentUnits].wind}</p>
+  `;
+
+  windDirectionEl.innerHTML = `${windDirection}&deg;`;
+  windDirectionIcon.style.transform = `rotateZ(${windDirection - 45}deg)`; // Because icon is by default on 45 degs
 }
 
 function drawSunriseAndSunset(sunrise, sunset) {
+  const sunriseTimeEl = document.querySelector('#sunrise-sunset .sunrise .time');
+  const sunsetTimeEl = document.querySelector('#sunrise-sunset .sunset .time');
+
   const sunriseTime = timeStampToTime(sunrise);
-  document.querySelector('#sunrise-sunset .sunrise .time').innerHTML = `${sunriseTime.hours}:${sunriseTime.minutes}`;
+  sunriseTimeEl.innerHTML = `${sunriseTime.hours}:${sunriseTime.minutes}`;
 
   const sunsetTime = timeStampToTime(sunset);
-  document.querySelector('#sunrise-sunset .sunset .time').innerHTML = `${sunsetTime.hours}:${sunsetTime.minutes}`;
+  sunsetTimeEl.innerHTML = `${sunsetTime.hours}:${sunsetTime.minutes}`;
 }
 
 function drawHumidity(humidity) {
@@ -131,7 +151,9 @@ function drawHumidity(humidity) {
 
   document.querySelector('#humidity .value').innerHTML = humidity;
   document.querySelector('#humidity .rating').innerHTML = rating;
-  document.querySelector('#humidity .range .circle').style.bottom = `${scale(humidity, 0, 100, 3, 73)}px`;
+  document.querySelector('#humidity .range .circle').style.bottom = `
+    ${scale(humidity, 0, 100, 3, 73)}px
+  `;
 }
 
 function drawVisibility(visibility) {
@@ -198,7 +220,8 @@ function updateApiUrl() {
 }
 
 function removeActiveUnitClass() {
-  document.querySelectorAll('.temp-units li a').forEach(btn => {
+  const unitButtons = document.querySelectorAll('.temp-units li a');
+  unitButtons.forEach(btn => {
     btn.classList.remove('active-unit');
   });
 }
@@ -230,5 +253,6 @@ async function fetchWeatherData() {
   // Draw everything
   drawWeather(data);
 }
+
 // Fetching default data on load
 fetchWeatherData();
