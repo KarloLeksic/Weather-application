@@ -1,6 +1,6 @@
 // Default coordinates for Osijek
-let lat = 45.554962;
-let lon = 18.695514;
+let lat = JSON.parse(localStorage.getItem('savedData'))?.lat || 45.554962;
+let lon = JSON.parse(localStorage.getItem('savedData'))?.lon || 18.695514;
 
 // Default metric units
 let currentUnits = 'metric';
@@ -35,8 +35,7 @@ const weekdayAbbs = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"];
 // Setting the duration of loading animations (ms) only to be seen 
 const animationDuration = 1500;
 
-let currLocation = 'Osijek, Hrvatska';
-
+let currLocation = JSON.parse(localStorage.getItem('savedData'))?.currLocation || 'Osijek, Grad Osijek, Osijek-Baranja County, Croatia';
 
 // Inserting weather data for each component on the screen
 function drawWeather(data) {
@@ -66,7 +65,7 @@ function drawCurrentConditions(data) {
   `;
 
   currentCloudinessEl.innerHTML = `${data.clouds}% cloudiness`;
- 
+
   // Set rain if exist
   let rain = data?.rain?.["1h"] || '0';
   currentRainEl.innerHTML = `${rain} mm/h`;
@@ -239,15 +238,10 @@ function drawUvIndex(uvIndex) {
   `;
 }
 
-// It's needed to update url after changing units
-function updateApiUrl() {
-  API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${currentUnits}&appid=${API_KEY}`;
-}
-
 // Main function for fetching data from API and drawing everything on the screen
-async function fetchWeatherData() {
-  updateApiUrl();
-  
+async function fetchWeatherData(lat, lon, units) {
+  API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`;
+
   try {
     const res = await fetch(API_URL);
 
