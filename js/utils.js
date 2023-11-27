@@ -35,6 +35,14 @@ function removeActiveUnitClass() {
   });
 }
 
+// For Today and Week buttons
+function removeMenuActiveClass() {
+  const btns = document.querySelectorAll('#view-switcher li a');
+  btns.forEach(btn => {
+    btn.classList.remove('menu-active');
+  });
+}
+
 // Highlight names are always the same and I want to display each while loading content, so i want to get default titles from data attribute
 const higlightNames = document.querySelectorAll('.highlight');
 

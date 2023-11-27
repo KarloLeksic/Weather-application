@@ -253,6 +253,7 @@ async function fetchWeatherData(lat, lon, units) {
 
     // Draw everything
     if (data) {
+      createChart(data.hourly);
       drawWeather(data);
       addCityImageFilter();
       removeLoadingAnimation();
@@ -261,4 +262,14 @@ async function fetchWeatherData(lat, lon, units) {
     alert(`Something went wrong: ${error.message}.\nMake sure you typed the place name correctly!`);
     location.reload();
   }
+}
+
+function createChart(data) {
+  const chartContainer = document.querySelector('#screen-container .screen .hourly-graph');
+
+  chartContainer.innerHTML = `
+      <canvas id="hourly-chart" width="800" height="400"></canvas>
+  `;
+
+  drawChart(data);
 }

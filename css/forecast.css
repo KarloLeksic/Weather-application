@@ -24,6 +24,11 @@ nav ul li a {
   text-decoration: none;
   color: #c5c5c5;
   font-size: 18px;
+  transition: opacity .15s ease;
+}
+
+nav ul li a:hover {
+  opacity: .8;
 }
 
 nav ul li a.menu-active {
@@ -132,6 +137,7 @@ nav ul li a.menu-active::after {
 }
 
 .next-7-days-forecast {
+  width: 800px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -168,4 +174,21 @@ nav ul li a.menu-active::after {
 
 .day .temp-container .min-temp {
   color: #b1b1b1;
+}
+
+.carousel {
+  overflow: hidden;
+  width: 800px;
+}
+
+.screen-container {
+  display: flex;
+}
+
+.hourly-graph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 800px;
 }

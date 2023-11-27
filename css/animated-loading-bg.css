@@ -31,6 +31,10 @@
   width: 210px;
 }
 
+.animated-bg-graph {
+  border-radius: 50px;
+}
+
 @keyframes bgLoading {
   0%{
     background-position: 50% 0;

@@ -53,9 +53,9 @@
     <div class="forecast">
       <nav>
 
-        <ul>
-          <li><a href="#">Today</a></li>
-          <li><a href="#" class="menu-active">Week</a></li>
+        <ul id="view-switcher">
+          <li><a href="#" data-period="today">Hourly</a></li>
+          <li><a href="#" class="menu-active" data-period="week">Weekly</a></li>
         </ul>
 
         <ul class="temp-units" id="temp-units">
@@ -73,45 +73,62 @@
 
       </nav>
 
-      <div class="next-7-days-forecast" id="next-7-days-forecast">
+      <div class="carousel">
+        <div class="screen-container" id="screen-container">
+          <div class="screen">
+            <div class="hourly-graph animated-bg animated-bg-graph">
+              <canvas id="hourly-chart" width="800" height="400"></canvas>
+            </div>
+          </div>
 
-        <div class="day animated-bg"></div>
-        <div class="day animated-bg"></div>
-        <div class="day animated-bg"></div>
-        <div class="day animated-bg"></div>
-        <div class="day animated-bg"></div>
-        <div class="day animated-bg"></div>
-        <div class="day animated-bg"></div>
+          <div class="screen">
+            <div class="next-7-days-forecast" id="next-7-days-forecast">
 
-      </div>
+              <div class="day animated-bg"></div>
+              <div class="day animated-bg"></div>
+              <div class="day animated-bg"></div>
+              <div class="day animated-bg"></div>
+              <div class="day animated-bg"></div>
+              <div class="day animated-bg"></div>
+              <div class="day animated-bg"></div>
 
-      <h3>Today's Highlights</h3>
-      <div class="todays-higlights-container">
+            </div>
 
-        <div class="highlight feels-like animated-bg" id="feels-like" data-highlight-name="Feels like">
+            <h3>Today's Highlights</h3>
+            <div class="todays-higlights-container">
+
+              <div class="highlight feels-like animated-bg" id="feels-like" data-highlight-name="Feels like">
+              </div>
+
+              <div class="highlight wind animated-bg" id="wind" data-highlight-name="Wind Status">
+              </div>
+
+              <div class="highlight sunrise-sunset animated-bg" id="sunrise-sunset"
+                data-highlight-name="Sunrise & Sunset">
+              </div>
+
+              <div class="highlight humidity animated-bg" id="humidity" data-highlight-name="Humidity">
+              </div>
+
+              <div class="highlight animated-bg" id="visibility" data-highlight-name="Visibility">
+              </div>
+
+              <div class="highlight uv-index animated-bg" id="uv-index" data-highlight-name="UV Index">
+              </div>
+
+            </div>
+          </div>
         </div>
-
-        <div class="highlight wind animated-bg" id="wind" data-highlight-name="Wind Status">
-        </div>
-
-        <div class="highlight sunrise-sunset animated-bg" id="sunrise-sunset" data-highlight-name="Sunrise & Sunset">
-        </div>
-
-        <div class="highlight humidity animated-bg" id="humidity" data-highlight-name="Humidity">
-        </div>
-
-        <div class="highlight animated-bg" id="visibility" data-highlight-name="Visibility">
-        </div>
-
-        <div class="highlight uv-index animated-bg" id="uv-index" data-highlight-name="UV Index">
-        </div>
-
       </div>
     </div>
   </div>
 
+
+
   <script src="js/citySearch.js"></script>
   <script src="js/utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/hourlyChart.js"></script>
   <script src="js/weather.js"></script>
   <script src="js/main.js"></script>
 
